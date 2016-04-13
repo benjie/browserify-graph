@@ -5,6 +5,7 @@ var detective = require('detective'),
     fs = require('graceful-fs'),
     path = require('path'),
     async = require('async'),
+    debug = require('debug')('browserify-graph'),
     archy = require('archy');
 
 if (process.argv.length < 3) {
@@ -21,6 +22,7 @@ var IS_CORE = /^[^\\\/]+$/,
 get(file, done);
 
 function get(file, callback) {
+    debug("[get] " + file);
     if (IS_CORE.test(file)) {
         return callback(null, { label: file + ' - builtin', nodes: [] });
     }
@@ -34,10 +36,12 @@ function get(file, callback) {
         }
 
         var requires = detective(contents);
+        debug("[get/read] Got " + requires.length + " requires for " + file);
         async.map(requires, getDep, gotDeps);
     }
 
     function getDep(name, callback) {
+        debug("[get/getDep] Getting additional dependency " + name);
         resolve(name, { filename: file }, resolved);
 
         function resolved(err, p) {
