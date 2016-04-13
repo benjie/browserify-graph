@@ -2,7 +2,7 @@
 
 var detective = require('detective'),
     resolve = require('browser-resolve'),
-    fs = require('fs'),
+    fs = require('graceful-fs'),
     path = require('path'),
     async = require('async'),
     archy = require('archy');
