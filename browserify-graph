@@ -40,10 +40,10 @@ function get(parentNodeId, file, callback) {
     }
 
     dependenciesByFile[file] = {};
-    var thisNodeId = file;
+    var thisNodeId = path.relative(process.cwd(), file);
     var thisNode = {
       id: thisNodeId,
-      label: file,
+      label: thisNodeId,
       size: 1,
     };
     nodes.push(thisNode);
